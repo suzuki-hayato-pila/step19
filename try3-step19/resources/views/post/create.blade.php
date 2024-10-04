@@ -25,3 +25,4 @@
                 </x-primary-button>
             </form>
         </div>
+</x-app-layout>
