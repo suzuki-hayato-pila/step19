@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 Route::get('/', function () {
     return view('welcome');
 });
+// ->middleware('can:test');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -18,8 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('post/create', [PostController::class, 'create'])
-->middleware(['auth','admin']);
+Route::get('post/create', [PostController::class, 'create']);
+// ->middleware(['auth','admin']);
+// ＊コメントアウト、インで;を付けたり、消したりする事
 
 Route::post('post', [PostController::class, 'store'])
 ->name('post.store');
