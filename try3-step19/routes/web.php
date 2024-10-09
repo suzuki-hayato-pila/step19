@@ -4,6 +4,12 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
+Route::get('post/{post}/edit', [PostController::class, 'edit'])
+->name('post.edit');
+
+Route::patch('post/{post}', [PostController::class, 'update'])
+->name('post.update');
+
 Route::get('post/show/{post}',[PostController::class, 'show'])
 ->name('post.show');
 
