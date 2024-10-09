@@ -4,14 +4,17 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
-Route::get('post/{post}/edit', [PostController::class, 'edit'])
-->name('post.edit');
+// リソースコントローラーを使用のため、無効にした
+// Route::get('post/{post}/edit', [PostController::class, 'edit'])
+// ->name('post.edit');
 
-Route::patch('post/{post}', [PostController::class, 'update'])
-->name('post.update');
+// Route::patch('post/{post}', [PostController::class, 'update'])
+// ->name('post.update');
 
-Route::get('post/show/{post}',[PostController::class, 'show'])
-->name('post.show');
+// Route::get('post/show/{post}',[PostController::class, 'show'])
+// ->name('post.show');
+
+Route::resource('post', PostController::class);
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,7 +23,8 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// })->middleware(['auth', 'verified']) リソースコントローラーの利用につき無効にした
+})->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,13 +36,14 @@ Route::get('post/create', [PostController::class, 'create']);
 // ->middleware(['auth','admin']);
 // ＊コメントアウト、インで;を付けたり、消したりする事
 
-Route::post('post', [PostController::class, 'store'])
-->name('post.store');
+// リソースコントローラーの利用につき無効にした
+// Route::post('post', [PostController::class, 'store'])
+// ->name('post.store');
 
-Route::get('post', [PostController::class, 'index'])
-->name('post.index');
+// Route::get('post', [PostController::class, 'index'])
+// ->name('post.index');
 
-Route::delete('post/{post}',[PostController::class, 'destroy'])
-->name('post.destroy');
+// Route::delete('post/{post}',[PostController::class, 'destroy'])
+// ->name('post.destroy');
 
 require __DIR__.'/auth.php';

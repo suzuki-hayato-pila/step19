@@ -1,32 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Gate;
 
-// use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index(){
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
         $posts=Post::all();
-        // $posts=Post::where('user_id', auth()->id())->get();  ログインユーザーの投稿データを取得
-        // $posts=Post::where('user_id', '!', auth()->id())->get();  ログインユーザー以外の投稿データーを取得
-        // $posts=Post::whereDate('created_at', '>=', '2024-10-04')->get(); 2024-10-04以降に作成された投稿データを取得
-        // $posts=Post::where('user_id', 1)->whereDate('created_at', '2024-10-04')->get(); user_idカラムが1でかつ、2024年10月4日以降の投稿データ取得
-        // 作成日を新しい順にしてデータを取得↓
-        $posts=Post::orderBy('created_at', 'desc')->get();
-        // $posts=Post::whereDate('created_at', '2024-10-04')->first();  作成日を新しい順にしてデータをひとつだけ取得する
-        // $posts=Post::find(1);  idが1のデータを取得する　　　foreach関数と一緒に使用すると、foreachを使用する必要がないため、エラーになる
         return view('post.index', compact('posts'));
     }
-    public function create() {
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
         return view('post.create');
     }
-    public function store(Request $request) {
-        Gate::authorize('test');
 
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'title' => 'required|max:20',
             'body' => 'required|max:400',
@@ -36,40 +38,50 @@ class PostController extends Controller
 
         $post = Post::create($validated);
 
-        // $post = Post::create([
-        //     'title' => $request->title,
-        //     'body' => $request->body
-        // ]);
         $request->session()->flash('message', '保存しました');
-
-        return back();
+        return redirect()->route('post.index');
     }
-
-    public function update(Request $request, Post $post){
-        // バリデーション
-        $validated = $request->validate([
-            'title' => 'required|max:20',
-            'body'  => 'required|max:400',
-        ]);
-        // 投稿データを更新
-        $post->update($validated);
-        // 更新成功メッセージをセッションに格納
-        $request->session()->flash('message', '更新しました');
-
-        return back();
-    }
-    public function show (Post $post) {
+    /**
+     * Display the specified resource.
+     */
+    public function show(Post $post)
+    {
         return view('post.show', compact('post'));
     }
 
-    public function edit(Post $post) {
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Post $post)
+    {
         return view('post.edit', compact('post'));
     }
 
-    public function destroy(Request $request, Post $post) {
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Post $post)
+    {
+        $validated = $request->validate([
+            'title' => 'required|max:20',
+            'body' => 'required|max:400',
+        ]);
+
+        $validated['user_id'] = auth()->id();
+
+        $post->update($validated);
+
+        $request->session()->flash('message', '更新しました');
+        return redirect()->route('post.show', compact('post'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Request $request,Post $post)
+    {
         $post->delete();
-        $request->session()->flash('message', '削除しました');
-        return redirect('post');
-        // return redirect()->route('post.index');
+        $request->session()-flash('message', '削除しました');
+        return redirect()->route('post.index');
     }
 }
