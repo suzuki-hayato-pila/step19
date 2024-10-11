@@ -47,3 +47,19 @@ Route::get('post/create', [PostController::class, 'create']);
 // ->name('post.destroy');
 
 require __DIR__.'/auth.php';
+
+
+//10/11テストコード追加
+use Faker\Factory as Faker;
+
+Route::get('/faker-test', function () {
+    // Fakerのインスタンスを作成
+    $faker = Faker::create(); // Factoryを使ってインスタンスを生成
+
+    // Fakerを使ってランダムなデータを生成
+    $randomName = $faker->name;
+    $randomEmail = $faker->email;
+
+    // 生成したデータを返す
+    return "Random Name: $randomName, Random Email: $randomEmail";
+});
