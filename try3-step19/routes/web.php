@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('post/create', [PostController::class, 'create']);
+// Route::get('post/create', [PostController::class, 'create']);
 // ->middleware(['auth','admin']);
 // ＊コメントアウト、インで;を付けたり、消したりする事
 
@@ -43,6 +43,7 @@ Route::get('post/create', [PostController::class, 'create']);
 // Route::get('post', [PostController::class, 'index'])
 // ->name('post.index');
 
+// 削除機能が使えないため復元　させてみたがダメだった10/12
 // Route::delete('post/{post}',[PostController::class, 'destroy'])
 // ->name('post.destroy');
 

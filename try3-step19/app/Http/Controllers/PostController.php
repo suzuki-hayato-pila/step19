@@ -73,7 +73,10 @@ class PostController extends Controller
         $post->update($validated);
 
         $request->session()->flash('message', '更新しました');
-        return redirect()->route('post.show', compact('post'));
+        //編集完了後のリダイレクト先を一覧画面にする場合
+        return redirect()->route('post.index');
+        //編集完了後のリダイレクト先を個別表示画面にする場合
+        // return redirect()->route('post.show', compact('post'));
     }
 
     /**
@@ -82,7 +85,7 @@ class PostController extends Controller
     public function destroy(Request $request,Post $post)
     {
         $post->delete();
-        $request->session()-flash('message', '削除しました');
+        $request->session()->flash('message', '削除しました');
         return redirect()->route('post.index');
     }
 }
