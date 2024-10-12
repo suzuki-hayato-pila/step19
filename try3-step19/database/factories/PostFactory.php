@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 //10/11トライ　
 // use Faker\Generator as Faker;
+// use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
